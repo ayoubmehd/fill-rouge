@@ -16,6 +16,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->integer("comment_count");
+            $table->foreignId('ctm_post_id')->constrained();
             $table->timestamps();
         });
     }

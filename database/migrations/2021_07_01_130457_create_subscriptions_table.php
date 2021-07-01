@@ -17,6 +17,7 @@ class CreateSubscriptionsTable extends Migration
             $table->id();
             $table->json("payment_getway");
             $table->date("end_date");
+            $table->foreignId('plan_id')->constrained();
             $table->timestamps();
         });
     }
