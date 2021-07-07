@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CtmPost;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -13,7 +16,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return \response()->json(Post::select('id', 'comment_count', 'ctm_post_id')->with(['ctmPost' => function ($query) {
+            $query->select('id', 'content', 'platform', 'like_count')->with(['images' => function ($query) {
+                $query->select('id', 'img_name', 'ctm_post_id');
+            }]);
+        }])->paginate(10));
     }
 
     /**
@@ -24,7 +31,22 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post();
+
+        $user = User::find(1);
+
+        $ctmPost = new  CtmPost([
+            'content' => $request->content,
+            'platform' => $request->platform,
+        ]);
+
+        $ctmPost->user()->associate($user);
+
+        $post->ctmPost()->associate($ctmPost);
+
+        $post->push();
+
+        return \response()->json($post, 201);
     }
 
     /**
@@ -35,7 +57,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        return \response()->json(Post::select('id', 'comment_count', 'ctm_post_id')->with(['ctmPost' => function ($query) {
+            $query->select('id', 'content', 'platform', 'like_count')->with(['images' => function ($query) {
+                $query->select('id', 'img_name', 'ctm_post_id');
+            }]);
+        }])->findOrFail($id));
     }
 
     /**
@@ -47,7 +73,16 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        // $user = User::find(1);
+
+        $post->ctmPost->content = $request->content;
+        $post->ctmPost->platform = $request->platform;
+
+        $post->push();
+
+        return \response()->json($post, 202);
     }
 
     /**
@@ -58,6 +93,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Post::findOrFail($id)->delete();
+
+        return \response()->json([], 202);
     }
 }
