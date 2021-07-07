@@ -9,6 +9,8 @@ class CtmPost extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['content', 'platform'];
+
     function images()
     {
         return $this->hasMany(Image::class, 'ctm_post_id');
