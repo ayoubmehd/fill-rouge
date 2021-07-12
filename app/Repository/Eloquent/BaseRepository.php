@@ -2,7 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use App\Repository\EloquentRepositoryInterface;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ class BaseRepository implements EloquentRepositoryInterface
     /**
      * 
      */
-    public function paginate(): Collection
+    public function paginate(): LengthAwarePaginator
     {
         // return \response()->json(Post::select('id', 'comment_count', 'ctm_post_id')->with(['ctmPost' => function ($query) {
         //     $query->select('id', 'content', 'platform', 'like_count')->with(['images' => function ($query) {

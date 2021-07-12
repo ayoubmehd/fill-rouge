@@ -5,10 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\CtmPost;
 use App\Models\Post;
 use App\Models\User;
+use App\Repository\CtmPostRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    /**
+     * @var CtmPostRepositoryInterface
+     */
+    protected $postRepository;
+
+    /**
+     * PostController Constructor
+     * 
+     * @param CtmPostRepositoryInterface $postRepository
+     */
+    public function __construct(CtmPostRepositoryInterface $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,11 +32,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        return \response()->json(Post::select('id', 'comment_count', 'ctm_post_id')->with(['ctmPost' => function ($query) {
-            $query->select('id', 'content', 'platform', 'like_count')->with(['images' => function ($query) {
-                $query->select('id', 'img_name', 'ctm_post_id');
-            }]);
-        }])->paginate(10));
+        // return \response()->json(Post::select('id', 'comment_count', 'ctm_post_id')->with(['ctmPost' => function ($query) {
+        //     $query->select('id', 'content', 'platform', 'like_count')->with(['images' => function ($query) {
+        //         $query->select('id', 'img_name', 'ctm_post_id');
+        //     }]);
+        // }])->paginate(10));
+
+        return \response()->json($this->postRepository->paginate());
     }
 
     /**
@@ -35,16 +53,11 @@ class PostController extends Controller
 
         $user = User::find(1);
 
-        $ctmPost = new  CtmPost([
+        $this->postRepository->associate('user', $user);
+        $post = $this->postRepository->store([
             'content' => $request->content,
             'platform' => $request->platform,
         ]);
-
-        $ctmPost->user()->associate($user);
-
-        $post->ctmPost()->associate($ctmPost);
-
-        $post->push();
 
         return \response()->json($post, 201);
     }
@@ -57,11 +70,13 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return \response()->json(Post::select('id', 'comment_count', 'ctm_post_id')->with(['ctmPost' => function ($query) {
-            $query->select('id', 'content', 'platform', 'like_count')->with(['images' => function ($query) {
-                $query->select('id', 'img_name', 'ctm_post_id');
-            }]);
-        }])->findOrFail($id));
+        // return \response()->json(Post::select('id', 'comment_count', 'ctm_post_id')->with(['ctmPost' => function ($query) {
+        //     $query->select('id', 'content', 'platform', 'like_count')->with(['images' => function ($query) {
+        //         $query->select('id', 'img_name', 'ctm_post_id');
+        //     }]);
+        // }])->findOrFail($id));
+
+        return $this->postRepository->show($id);
     }
 
     /**
@@ -73,14 +88,18 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::findOrFail($id);
+        // $post = Post::findOrFail($id);
 
-        // $user = User::find(1);
+        // // $user = User::find(1);
 
-        $post->ctmPost->content = $request->content;
-        $post->ctmPost->platform = $request->platform;
+        // $post->ctmPost->content = $request->content;
+        // $post->ctmPost->platform = $request->platform;
 
-        $post->push();
+        // $post->push();
+        $post = $this->postRepository->update($id, [
+            'content' => $request->content,
+            'platform' => $request->platform
+        ]);
 
         return \response()->json($post, 202);
     }
@@ -93,7 +112,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        Post::findOrFail($id)->delete();
+        $this->postRepository->destroy($id);
 
         return \response()->json([], 202);
     }

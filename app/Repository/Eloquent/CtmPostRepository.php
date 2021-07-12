@@ -3,54 +3,73 @@
 namespace App\Repository\Eloquent;
 
 use App\Repository\CtmPostRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use App\Models\CtmPost;
 
 class CtmPostRepository implements CtmPostRepositoryInterface
 {
 
+    /**
+     * @var CtmPost
+     */
+    protected $model;
 
+
+    /**
+     * CtmPostRepository constructor
+     * @param CtmPost $model
+     */
+    public function __construct(CtmPost $model)
+    {
+        $this->model = $model;
+    }
     /**
      * @return Collection
      */
-    public function paginate(): Collection
+    public function paginate(): LengthAwarePaginator
     {
-        return $this->model->select()->with(['post', 'images']);
+        return $this->model->select()->with(['post', 'images'])->paginate(10);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  array  $payload
      * @return App\Models\CtmPost
      */
-    public function store(Request $request, array $payload): Model
+    public function store(array $payload): Model
     {
-        $this->model->ctmPost($payload);
-
+        foreach ($payload as $key => $value) {
+            $this->model->$key = $value;
+        }
+        $this->model->push();
         return $this->model;
     }
 
     public function show($id): Model
     {
-        $this->model->findOrFail($id);
-
-        return $this->model;
+        return $this->model->findOrFail($id);
     }
 
-    public function update(Request $request, $id, array $payload): bool
+    public function update($id, array $payload): bool
     {
-        $this->model->findOrFial($id);
+        $this->model->findOrFail($id)
+            ->update($payload);
 
-        $this->model->update($payload);
-
-        return $this->model;
+        return true;
     }
 
     public function destroy($id): bool
     {
         $this->model->findOrFail($id)->delete();
+
+        return true;
+    }
+
+    public function associate(string $relName, Model $rel): void
+    {
+        $this->model->$relName()->associate($rel);
     }
 }

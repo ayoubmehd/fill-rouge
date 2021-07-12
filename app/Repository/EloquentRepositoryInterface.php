@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -13,16 +13,15 @@ interface EloquentRepositoryInterface
      *
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function paginate(): Collection;
+    public function paginate(): LengthAwarePaginator;
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  array  $payload
      * @return App\Models\CtmPost
      */
-    public function store(Request $request, array $payload): Model;
+    public function store(array $payload): Model;
 
     /**
      * Display the specified resource.
@@ -36,12 +35,11 @@ interface EloquentRepositoryInterface
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @param  array  $payload
      * @return Bool
      */
-    public function update(Request $request, $id, array $payload): Bool;
+    public function update($id, array $payload): Bool;
 
 
     /**
@@ -51,4 +49,13 @@ interface EloquentRepositoryInterface
      * @return Bool
      */
     public function destroy($id): Bool;
+
+    /**
+     * Associate a model with the current model
+     *
+     * @param  Model  $rel
+     * @param  string  $relName
+     * @return void
+     */
+    public function associate(string $relName, Model $rel): void;
 }
