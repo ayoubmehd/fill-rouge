@@ -17,7 +17,8 @@ class CreateCtmPostsTable extends Migration
             $table->id();
             $table->text("content");
             $table->string("platform");
-            $table->integer("like_count");
+            $table->integer("like_count")->default(0);
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
