@@ -16,7 +16,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->integer("comment_count")->default(0);
-            $table->foreignId('ctm_post_id')->constrained();
+            $table->foreignId('ctm_post_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
