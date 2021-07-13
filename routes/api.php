@@ -27,6 +27,7 @@ Route::prefix('ctm-post')->group(function () {
     Route::patch('posts/{id}', [PostController::class, 'update']);
     Route::delete('posts/{id}', [PostController::class, 'destroy']);
 
-Route::prefix('facebook')->group(function () {
-    Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
+    Route::prefix('facebook')->group(function () {
+        Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
+    });
 });
