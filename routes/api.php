@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FacebookPostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,7 @@ Route::prefix('ctm-post')->group(function () {
     Route::get('posts/{id}', [PostController::class, 'show']);
     Route::patch('posts/{id}', [PostController::class, 'update']);
     Route::delete('posts/{id}', [PostController::class, 'destroy']);
+
+Route::prefix('facebook')->group(function () {
+    Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
 });
