@@ -14,15 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-$facebookConfig = [
-    'app_id' => '537892820719953',
-    'app_secret' => '1965ac9ee69aa6dc3bd993b0e294d2d4',
-
-];
-
 Route::get('/', function (Request $request) use ($facebookConfig) {
 
-    $fb = new Facebook\Facebook($facebookConfig);
+    $fb = new Facebook\Facebook();
 
     $helper = $fb->getRedirectLoginHelper();
 
@@ -32,7 +26,7 @@ Route::get('/', function (Request $request) use ($facebookConfig) {
 });
 
 Route::get('login', function (Request $request) use ($facebookConfig) {
-    $fb = new Facebook\Facebook($facebookConfig);
+    $fb = new Facebook\Facebook();
     $helper = $fb->getRedirectLoginHelper();
     $accessToken = $helper->getAccessToken();
     // OAuth 2.0 client handler
@@ -44,7 +38,7 @@ Route::get('login', function (Request $request) use ($facebookConfig) {
 
 Route::get('user', function () use ($facebookConfig) {
 
-    $fb = new Facebook\Facebook($facebookConfig);
+    $fb = new Facebook\Facebook();
 
     $fb->setDefaultAccessToken('EAAHpNe6BmVEBAPjtnv1HcamRoYcGKZAxjZBp4ZA0o0GlyOAOZCbOqZBdpYQItkW2YY6KIKQSBVZCPcZAWnY7q2ZCarIuOkZAd3ZBZBEpD0ecQZBvOzowT8B79eB3ZC1YineEyb4VOPqyXRxhHjsiAbLtdFmZANWaParDrraJXSouVx5kORSAUsioJ0I5l9');
     $response = $fb->get('/me');

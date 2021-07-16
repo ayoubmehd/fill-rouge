@@ -21,11 +21,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('ctm-post')->group(function () {
-    Route::post('posts', [PostController::class, 'store']);
-    Route::get('posts', [PostController::class, 'index']);
-    Route::get('posts/{id}', [PostController::class, 'show']);
-    Route::patch('posts/{id}', [PostController::class, 'update']);
-    Route::delete('posts/{id}', [PostController::class, 'destroy']);
+    // Route::post('posts', [PostController::class, 'store']);
+    // Route::get('posts', [PostController::class, 'index']);
+    // Route::get('posts/{id}', [PostController::class, 'show']);
+    // Route::patch('posts/{id}', [PostController::class, 'update']);
+    // Route::delete('posts/{id}', [PostController::class, 'destroy']);
+
+    Route::resource('posts', PostController::class);
 
     Route::prefix('facebook')->group(function () {
         Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
