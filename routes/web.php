@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (Request $request) {
+// Route::get('/', function (Request $request) {
 
-    $fb = new Facebook\Facebook();
+//     $fb = new Facebook\Facebook();
 
-    $helper = $fb->getRedirectLoginHelper();
+//     $helper = $fb->getRedirectLoginHelper();
 
-    $permissions = ['email', 'user_likes'];
-    $loginUrl = $helper->getLoginUrl(\url("/login"), $permissions);
-    return "<a href=\"$loginUrl\">Login With Facebook</a>";
-});
+//     $permissions = ['email', 'user_likes'];
+//     $loginUrl = $helper->getLoginUrl(\url("/login"), $permissions);
+//     return "<a href=\"$loginUrl\">Login With Facebook</a>";
+// });
 
 Route::get('login', function (Request $request) {
     $fb = new Facebook\Facebook();
