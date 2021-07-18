@@ -47,6 +47,6 @@ Route::get('user', function () {
     return $userNode;
 });
 
-Route::get("/front", function () {
+Route::get("/{any?}", function () {
     return view("welcome");
 });
