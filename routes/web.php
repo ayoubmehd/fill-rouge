@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (Request $request) use ($facebookConfig) {
+Route::get('/', function (Request $request) {
 
     $fb = new Facebook\Facebook();
 
@@ -25,7 +25,7 @@ Route::get('/', function (Request $request) use ($facebookConfig) {
     return "<a href=\"$loginUrl\">Login With Facebook</a>";
 });
 
-Route::get('login', function (Request $request) use ($facebookConfig) {
+Route::get('login', function (Request $request) {
     $fb = new Facebook\Facebook();
     $helper = $fb->getRedirectLoginHelper();
     $accessToken = $helper->getAccessToken();
@@ -36,7 +36,7 @@ Route::get('login', function (Request $request) use ($facebookConfig) {
     return $longLivedAccessToken;
 });
 
-Route::get('user', function () use ($facebookConfig) {
+Route::get('user', function () {
 
     $fb = new Facebook\Facebook();
 
