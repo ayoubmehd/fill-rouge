@@ -11,6 +11,7 @@ window.Vue = require('vue').default;
 import Vue from "vue";
 import VueRouter from "vue-router";
 import router from "./routes/index.js";
+import store from "./store/index.js";
 import Main from "./Main.vue";
 
 /**
@@ -34,5 +35,6 @@ Vue.use(VueRouter);
 const app = new Vue({
     el: '#app',
     router,
+    store,
     components: { "main-component": Main }
 });
