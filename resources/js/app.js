@@ -13,6 +13,7 @@ import VueRouter from "vue-router";
 import router from "./routes/index.js";
 import store from "./store/index.js";
 import Main from "./Main.vue";
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 
 /**
  * The following block of code may be used to automatically register your
@@ -33,6 +34,8 @@ import "../css/app.scss";
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.use(VueRouter);
+Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 
 const app = new Vue({
     el: '#app',

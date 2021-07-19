@@ -1,11 +1,23 @@
 <template>
     <div>
-        <router-view />
+        <navbar />
+        <sidebar />
+        <main>
+            <router-view />
+        </main>
     </div>
 </template>
 
 <script>
-export default {};
+import Navbar from "./components/Layouts/Navbar.vue";
+import Sidebar from "./components/Layouts/Sidebar.vue";
+
+export default {
+    components: {
+        Navbar,
+        Sidebar
+    }
+};
 </script>
 
 <style></style>
