@@ -2,6 +2,11 @@
 $body-bg: #000;
 $body-color: #ddd;
 
+$theme-colors: (
+    "light-info": #00dcff,
+    "light-success": #00dcff
+);
+
 // Then import Bootstrap an BootstrapVue SCSS files (order is important)
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 @import "node_modules/bootstrap-vue/src/index.scss";
