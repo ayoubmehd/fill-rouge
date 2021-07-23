@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Classes\FacebookSession;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,19 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function (Request $request) {
+Route::get('/facebook', function (Request $request) {
 
-//     $fb = new Facebook\Facebook();
+    $fb = new Facebook\Facebook(['persistent_data_handler' => new FacebookSession]);
 
-//     $helper = $fb->getRedirectLoginHelper();
+    $helper = $fb->getRedirectLoginHelper();
 
-//     $permissions = ['email', 'user_likes'];
-//     $loginUrl = $helper->getLoginUrl(\url("/login"), $permissions);
-//     return "<a href=\"$loginUrl\">Login With Facebook</a>";
-// });
+    $permissions = ['email', 'user_likes', 'pages_manage_posts',  'pages_read_engagement', 'pages_show_list'];
+    $loginUrl = $helper->getLoginUrl(\url("/login"), $permissions);
+    return "<a href=\"$loginUrl\">Login With Facebook</a>";
+});
 
 Route::get('login', function (Request $request) {
-    $fb = new Facebook\Facebook();
+    $fb = new Facebook\Facebook(['persistent_data_handler' => new FacebookSession]);
     $helper = $fb->getRedirectLoginHelper();
     $accessToken = $helper->getAccessToken();
     // OAuth 2.0 client handler

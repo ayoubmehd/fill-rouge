@@ -1,6 +1,7 @@
 import Home from "../views/Home.vue";
 import Posts from "../views/Posts.vue";
 import SinglePost from "../views/SinglePost.vue";
+import AddPost from "../views/AddPost.vue";
 
 const routes = [
     {
@@ -17,6 +18,11 @@ const routes = [
         path: "/post",
         name: "SinglePost",
         component: SinglePost
+    },
+    {
+        path: "/add-post",
+        name: "AddPost",
+        component: AddPost
     }
 ];
 
