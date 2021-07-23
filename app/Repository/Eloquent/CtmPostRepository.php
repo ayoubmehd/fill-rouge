@@ -2,11 +2,15 @@
 
 namespace App\Repository\Eloquent;
 
+use Illuminate\Support\Facades\Log;
+use App\Events\PostAdded;
 use App\Repository\CtmPostRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\CtmPost;
+use App\Providers\PostDeleted;
+use App\Providers\PostUpdated;
 
 class CtmPostRepository implements CtmPostRepositoryInterface
 {
@@ -45,6 +49,10 @@ class CtmPostRepository implements CtmPostRepositoryInterface
             $this->model->$key = $value;
         }
         $this->model->push();
+
+        PostAdded::dispatch($this->model);
+
+
         return $this->model;
     }
 
@@ -58,6 +66,7 @@ class CtmPostRepository implements CtmPostRepositoryInterface
         $this->model->findOrFail($id)
             ->update($payload);
 
+        PostUpdated::dispatch($this->model);
         return true;
     }
 
@@ -65,6 +74,7 @@ class CtmPostRepository implements CtmPostRepositoryInterface
     {
         $this->model->findOrFail($id)->delete();
 
+        PostDeletedRoute::dispatch($id);
         return true;
     }
 
