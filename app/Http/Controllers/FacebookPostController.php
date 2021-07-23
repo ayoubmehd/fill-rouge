@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use Facebook\Facebook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Repository\FacebookRepositoryInterface;
 
 class FacebookPostController extends Controller
 {
+
+
+    protected $facebookRepository;
+
+
+    public function __construct(FacebookRepositoryInterface $facebookRepository)
+    {
+        $this->facebookRepository = $facebookRepository;
+    }
     /**
      * Get the login url.
      *
@@ -25,6 +35,13 @@ class FacebookPostController extends Controller
         $permissions = ['email', 'user_likes'];
         $loginUrl = $helper->getLoginUrl(\url("/login"), $permissions);
         return \response()->json(['url' => (string)$loginUrl], 200);
+    }
+
+    public function getPages()
+    {
+        return \response()->json([
+            $this->facebookRepository->getPages()
+        ]);
     }
 
     /**
@@ -51,6 +68,7 @@ class FacebookPostController extends Controller
 
         return \response()->json(['status' => 'ok'], 200);
     }
+
     /**
      * Store a newly created resource in storage.
      *

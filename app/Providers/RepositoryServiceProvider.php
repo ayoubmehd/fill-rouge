@@ -6,6 +6,8 @@ use App\Repository\Eloquent\BaseRepository;
 use App\Repository\Eloquent\CtmPostRepository;
 use App\Repository\EloquentRepositoryInterface;
 use App\Repository\CtmPostRepositoryInterface;
+use App\Repository\FacebookRepositoryInterface;
+use App\Repository\SDKs\FacebookRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -19,6 +21,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(EloquentRepositoryInterface::class, BaseRepository::class);
         $this->app->bind(CtmPostRepositoryInterface::class, CtmPostRepository::class);
+        $this->app->bind(FacebookRepositoryInterface::class, FacebookRepository::class);
     }
 
     /**
