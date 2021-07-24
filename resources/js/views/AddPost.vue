@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <b-form>
+        <b-form @submit.prevent="addPost">
             <b-form-group
                 id="input-group-1"
                 label="Content:"
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
     data() {
         return {
@@ -45,10 +45,17 @@ export default {
                 value: page.id,
                 text: page.name
             }));
-        }
+        },
+        ...mapState({
+            isLoading: state => state.post.isLoading,
+            errors: state => state.post.errors
+        })
     },
     methods: {
-        ...mapActions(["getUserPages"])
+        ...mapActions(["getUserPages"]),
+        addPost() {
+            this.$store.dispatch("addPost", this.form);
+        }
     },
     mounted() {
         this.getUserPages();
