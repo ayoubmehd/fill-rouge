@@ -32,10 +32,13 @@ class PlatformRepository implements PlatformRepositoryInterface
     {
         $res = $this->model->where("platform", $platform)->first();
 
+
         if ($res) {
             return $res;
         }
 
-        return $this->model->create(["platform" => $platform]);
+        $this->model->platform = $platform;
+
+        return $this->model;
     }
 }

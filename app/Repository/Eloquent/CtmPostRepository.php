@@ -82,4 +82,9 @@ class CtmPostRepository implements CtmPostRepositoryInterface
     {
         $this->model->$relName()->associate($rel);
     }
+
+    public function attach(string $relName, array $ids): void
+    {
+        $this->model->$relName()->attach($ids);
+    }
 }
