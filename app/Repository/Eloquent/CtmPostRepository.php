@@ -3,7 +3,6 @@
 namespace App\Repository\Eloquent;
 
 use Illuminate\Support\Facades\Log;
-use App\Events\PostAdded;
 use App\Repository\CtmPostRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
@@ -49,9 +48,6 @@ class CtmPostRepository implements CtmPostRepositoryInterface
             $this->model->$key = $value;
         }
         $this->model->push();
-
-        PostAdded::dispatch($this->model);
-
 
         return $this->model;
     }

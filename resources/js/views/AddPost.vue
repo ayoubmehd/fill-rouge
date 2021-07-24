@@ -18,7 +18,7 @@
             <b-form-group id="input-group-3" label="Page:" label-for="pages">
                 <b-form-select
                     id="pages"
-                    v-model="form.page"
+                    v-model="form.fbPage"
                     :options="pages"
                     required
                 ></b-form-select>
@@ -35,7 +35,8 @@ export default {
         return {
             form: {
                 content: "",
-                page: ""
+                fbPage: "",
+                platforms: ["fb", "in"]
             }
         };
     },

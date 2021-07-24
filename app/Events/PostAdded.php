@@ -23,15 +23,17 @@ class PostAdded
      * @var $post
      */
     public $post;
+    public $options;
 
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(CtmPost $post)
+    public function __construct(CtmPost $post, array $options)
     {
         $this->post = $post;
+        $this->options = $options;
     }
 
     /**

@@ -14,7 +14,7 @@ class FacebookRepository implements FacebookRepositoryInterface
     {
         $this->fb = $fb;
 
-        $this->fb->setDefaultAccessToken('EAAHpNe6BmVEBACvA90Kt2ZAGmZAjgtvI3MJMRM6ufqotVrUDzDW0urYnEd2Aw4wB7ax9znyjbJXrshutiNEqPcLCwytSLdOuzR3vSrcLRj8YyKpTkJYxD9rPd51NpXjY3A4c0GelZBxByqBZAsL5PZB4WZA9FOkwezlhKPyxZCZB5QZDZD');
+        $this->fb->setDefaultAccessToken('EAAHpNe6BmVEBAHuXSpFCwlZC9qMre1PlZAvZC9Ja4ZBe92eFLBhemh1j3LQfrxfEslgX7GZBpKq2KKKatSvsYO49NFSms8uSfC6K1Fz0X8rhG5GOWop5iFUZB3uU3I1AjffW5pcYfe9vUKZAv72unCV444vB3HzVSy2IgEjwTLcTqPuweqBmA7S');
         // $linkData = [
         //     'link' => 'https://github.com/facebookarchive/php-graph-sdk/blob/master/docs/examples/post_links.md',
         //     'message' => 'This message is posted using the facebook PHP SDK',
@@ -49,8 +49,23 @@ class FacebookRepository implements FacebookRepositoryInterface
         });
     }
 
-    public function createPost($payload): object
+    public function createPost($payload)
     {
+
+        $page_id = $payload["page_id"];
+
+        $page_access_token = $this->getPageAccessToken($page_id);
+
+        $content = $payload["post"]->content;
+        $response = $this->fb->post(
+            "/$page_id/feed",
+            [
+                'message' => $content,
+            ],
+            $page_access_token
+        );
+
+        return $response->getDecodedBody();
     }
 
     public function updatePost($id, $payload): object
@@ -59,5 +74,16 @@ class FacebookRepository implements FacebookRepositoryInterface
 
     public function deletePost($id): bool
     {
+    }
+
+    protected function getPageAccessToken($page_id)
+    {
+        return collect(
+            $this->fb->get(
+                "/me/accounts?fields=access_token"
+            )->getDecodedBody()["data"]
+        )->first(function ($page) use ($page_id) {
+            return $page["id"] === $page_id;
+        })["access_token"];
     }
 }

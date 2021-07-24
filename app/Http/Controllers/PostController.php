@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostAdded;
 use App\Models\CtmPost;
 use App\Models\Post;
 use App\Models\User;
@@ -69,6 +70,13 @@ class PostController extends Controller
             $platforms[] = $platform->id;
         }
         $this->postRepository->attach("platforms", $platforms);
+
+        // Emmit add event
+        PostAdded::dispatch($post, [
+            "facebook" => [
+                "page" => $request->fbPage,
+            ],
+        ]);
 
         return \response()->json($post, 201);
     }
