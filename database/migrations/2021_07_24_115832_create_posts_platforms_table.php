@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCtmPostsTable extends Migration
+class CreatePostsPlatformsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateCtmPostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ctm_posts', function (Blueprint $table) {
+        Schema::create('posts_platforms', function (Blueprint $table) {
             $table->id();
-            $table->text("content");
-            // $table->enum("platforms", ["in", "fb"]);
-            $table->integer("like_count")->default(0);
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId("ctm_post_id")->constrained();
+            $table->foreignId("platform_id")->constrained();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateCtmPostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ctm_posts');
+        Schema::dropIfExists('posts_platforms');
     }
 }

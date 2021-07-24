@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\CtmPost;
+use App\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CtmPostFactory extends Factory
+class PlatformFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = CtmPost::class;
+    protected $model = Platform::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +22,7 @@ class CtmPostFactory extends Factory
     public function definition()
     {
         return [
-            'content' => $this->faker->text(),
-            'like_count' => \random_int(10, 200)
+            'platform' => $this->faker->randomElement(['fb', 'in'])
         ];
     }
 }
