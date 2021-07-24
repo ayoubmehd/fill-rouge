@@ -29,18 +29,26 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
     data() {
         return {
             form: {
                 content: "",
                 page: ""
-            },
-            pages: []
+            }
         };
     },
+    computed: {
+        pages() {
+            return this.$store.state.user.pages.map(page => ({
+                value: page.id,
+                text: page.name
+            }));
+        }
+    },
     methods: {
-        getUserPages() {}
+        ...mapActions(["getUserPages"])
     },
     mounted() {
         this.getUserPages();
