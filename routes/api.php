@@ -28,8 +28,9 @@ Route::prefix('ctm-post')->group(function () {
     // Route::delete('posts/{id}', [PostController::class, 'destroy']);
 
     Route::resource('posts', PostController::class);
+});
 
-    Route::prefix('facebook')->group(function () {
-        Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
-    });
+Route::prefix('facebook')->group(function () {
+    Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
+    Route::get('/get-user-pages', [FacebookPostController::class, 'getPages']);
 });

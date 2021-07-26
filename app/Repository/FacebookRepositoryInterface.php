@@ -5,7 +5,7 @@ namespace App\Repository;
 interface FacebookRepositoryInterface
 {
 
-    public function createPost($payload): Object;
+    public function createPost($payload);
     public function updatePost($id, $payload): Object;
     public function deletePost($id): bool;
 

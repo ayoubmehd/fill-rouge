@@ -35,4 +35,9 @@ class CtmPost extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    function platforms()
+    {
+        return $this->belongsToMany(Platform::class, "posts_platforms");
+    }
 }

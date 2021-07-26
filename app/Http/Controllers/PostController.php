@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostAdded;
 use App\Models\CtmPost;
 use App\Models\Post;
 use App\Models\User;
 use App\Repository\CtmPostRepositoryInterface;
+use App\Repository\PlatformRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,15 +17,18 @@ class PostController extends Controller
      * @var CtmPostRepositoryInterface
      */
     protected $postRepository;
+    protected $platformRepository;
 
     /**
      * PostController Constructor
      * 
      * @param CtmPostRepositoryInterface $postRepository
+     * @param PlatformRepositoryInterface $platformRepository
      */
-    public function __construct(CtmPostRepositoryInterface $postRepository)
+    public function __construct(CtmPostRepositoryInterface $postRepository, PlatformRepositoryInterface $platformRepository)
     {
         $this->postRepository = $postRepository;
+        $this->platformRepository = $platformRepository;
     }
     /**
      * Display a listing of the resource.
@@ -53,10 +58,24 @@ class PostController extends Controller
 
         $user = User::find(1);
 
+
         $this->postRepository->associate('user', $user);
         $post = $this->postRepository->store([
-            'content' => $request->content,
-            'platform' => $request->platform,
+            'content' => $request->content
+        ]);
+
+        $platforms = [];
+        foreach ($request->platforms as $platform) {
+            $platform = $this->platformRepository->findOrCreate($platform);
+            $platforms[] = $platform->id;
+        }
+        $this->postRepository->attach("platforms", $platforms);
+
+        // Emmit add event
+        PostAdded::dispatch($post, [
+            "facebook" => [
+                "page" => $request->fbPage,
+            ],
         ]);
 
         return \response()->json($post, 201);

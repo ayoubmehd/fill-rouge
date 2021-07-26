@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <b-form>
+        <b-form @submit.prevent="addPost">
             <b-form-group
                 id="input-group-1"
                 label="Content:"
@@ -18,7 +18,7 @@
             <b-form-group id="input-group-3" label="Page:" label-for="pages">
                 <b-form-select
                     id="pages"
-                    v-model="form.page"
+                    v-model="form.fbPage"
                     :options="pages"
                     required
                 ></b-form-select>
@@ -29,18 +29,34 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
     data() {
         return {
             form: {
                 content: "",
-                page: ""
-            },
-            pages: []
+                fbPage: "",
+                platforms: ["fb", "in"]
+            }
         };
     },
+    computed: {
+        pages() {
+            return this.$store.state.user.pages.map(page => ({
+                value: page.id,
+                text: page.name
+            }));
+        },
+        ...mapState({
+            isLoading: state => state.post.isLoading,
+            errors: state => state.post.errors
+        })
+    },
     methods: {
-        getUserPages() {}
+        ...mapActions(["getUserPages"]),
+        addPost() {
+            this.$store.dispatch("addPost", this.form);
+        }
     },
     mounted() {
         this.getUserPages();

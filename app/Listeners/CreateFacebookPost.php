@@ -6,6 +6,8 @@ use App\Events\PostAdded;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
+use App\Repository\FacebookRepositoryInterface;
+use App\Repository\SDKs\FacebookRepository;
 
 class CreateFacebookPost
 {
@@ -14,9 +16,12 @@ class CreateFacebookPost
      *
      * @return void
      */
-    public function __construct()
+    protected $facebookRepository;
+
+
+    public function __construct(FacebookRepositoryInterface $facebookRepository)
     {
-        //
+        $this->facebookRepository = $facebookRepository;
     }
 
     /**
@@ -27,6 +32,11 @@ class CreateFacebookPost
      */
     public function handle(PostAdded $event)
     {
-        Log::info("Post created, Creating facebook post...");
+        $res = $this->facebookRepository->createPost([
+            "post" => $event->post,
+            "page_id" => $event->options["facebook"]["page"]
+        ]);
+
+        \dd($res);
     }
 }

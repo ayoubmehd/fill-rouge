@@ -1,9 +1,10 @@
-export const state = {
-    data: []
-}
+import store from "../index.js";
 
-export const mutations = {}
-
-export const actions = {}
-
-export const getters = {}
+store.registerModule("example", {
+    state: {
+        data: []
+    },
+    mutations: {},
+    actions: {},
+    getters: {}
+});

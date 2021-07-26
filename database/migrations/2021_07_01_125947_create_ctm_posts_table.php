@@ -16,7 +16,7 @@ class CreateCtmPostsTable extends Migration
         Schema::create('ctm_posts', function (Blueprint $table) {
             $table->id();
             $table->text("content");
-            $table->string("platform");
+            // $table->enum("platforms", ["in", "fb"]);
             $table->integer("like_count")->default(0);
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
