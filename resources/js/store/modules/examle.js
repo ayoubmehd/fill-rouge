@@ -1,10 +1,8 @@
 import store from "../index.js";
 
-store.registerModule("example", {
-    state: {
-        data: []
-    },
+export default {
+    state: () => ({}),
     mutations: {},
     actions: {},
     getters: {}
-});
+};
