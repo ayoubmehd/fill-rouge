@@ -14,7 +14,7 @@ class FacebookRepository implements FacebookRepositoryInterface
     {
         $this->fb = $fb;
 
-        $this->fb->setDefaultAccessToken('EAAHpNe6BmVEBAHuXSpFCwlZC9qMre1PlZAvZC9Ja4ZBe92eFLBhemh1j3LQfrxfEslgX7GZBpKq2KKKatSvsYO49NFSms8uSfC6K1Fz0X8rhG5GOWop5iFUZB3uU3I1AjffW5pcYfe9vUKZAv72unCV444vB3HzVSy2IgEjwTLcTqPuweqBmA7S');
+        $this->fb->setDefaultAccessToken('EAAHpNe6BmVEBALxNvbn3ZBrOPiNuNVtV5yeejdosHqllblbhUOG3fOQ7E1QoRCDEyEDTsEc0DE7h8tsmXLXZAApucfKB7PqB0rrjIsal41ZC8vAS7ElOqXsl9tSPnfyzLuBqzpHm5PGjJd29ZBpWjptP1yvKuePgbZCHM0X8cD2EnJQG82qwp');
         // $linkData = [
         //     'link' => 'https://github.com/facebookarchive/php-graph-sdk/blob/master/docs/examples/post_links.md',
         //     'message' => 'This message is posted using the facebook PHP SDK',

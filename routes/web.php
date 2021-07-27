@@ -15,6 +15,10 @@ use App\Classes\FacebookSession;
 |
 */
 
+Route::get("/", function () {
+    return "Registred";
+});
+
 Route::get('/facebook', function (Request $request) {
 
     $fb = new Facebook\Facebook(['persistent_data_handler' => new FacebookSession]);
@@ -26,27 +30,27 @@ Route::get('/facebook', function (Request $request) {
     return "<a href=\"$loginUrl\">Login With Facebook</a>";
 });
 
-Route::get('login', function (Request $request) {
-    $fb = new Facebook\Facebook(['persistent_data_handler' => new FacebookSession]);
-    $helper = $fb->getRedirectLoginHelper();
-    $accessToken = $helper->getAccessToken();
-    // OAuth 2.0 client handler
-    $oAuth2Client = $fb->getOAuth2Client();
-    // Exchanges a short-lived access token for a long-lived one
-    $longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
-    return $longLivedAccessToken;
-});
+// Route::get('login', function (Request $request) {
+//     $fb = new Facebook\Facebook(['persistent_data_handler' => new FacebookSession]);
+//     $helper = $fb->getRedirectLoginHelper();
+//     $accessToken = $helper->getAccessToken();
+//     // OAuth 2.0 client handler
+//     $oAuth2Client = $fb->getOAuth2Client();
+//     // Exchanges a short-lived access token for a long-lived one
+//     $longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+//     return $longLivedAccessToken;
+// });
 
-Route::get('user', function () {
+// Route::get('user', function () {
 
-    $fb = new Facebook\Facebook();
+//     $fb = new Facebook\Facebook();
 
-    $fb->setDefaultAccessToken('EAAHpNe6BmVEBAPjtnv1HcamRoYcGKZAxjZBp4ZA0o0GlyOAOZCbOqZBdpYQItkW2YY6KIKQSBVZCPcZAWnY7q2ZCarIuOkZAd3ZBZBEpD0ecQZBvOzowT8B79eB3ZC1YineEyb4VOPqyXRxhHjsiAbLtdFmZANWaParDrraJXSouVx5kORSAUsioJ0I5l9');
-    $response = $fb->get('/me');
-    $userNode = $response->getGraphUser();
+//     $fb->setDefaultAccessToken('EAAHpNe6BmVEBAPjtnv1HcamRoYcGKZAxjZBp4ZA0o0GlyOAOZCbOqZBdpYQItkW2YY6KIKQSBVZCPcZAWnY7q2ZCarIuOkZAd3ZBZBEpD0ecQZBvOzowT8B79eB3ZC1YineEyb4VOPqyXRxhHjsiAbLtdFmZANWaParDrraJXSouVx5kORSAUsioJ0I5l9');
+//     $response = $fb->get('/me');
+//     $userNode = $response->getGraphUser();
 
-    return $userNode;
-});
+//     return $userNode;
+// });
 
 Route::get("/{any?}", function () {
     return view("welcome");
