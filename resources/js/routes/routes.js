@@ -19,22 +19,34 @@ const routes = [
     {
         path: "/",
         name: "Home",
-        component: Home
+        component: Home,
+        meta: {
+            login: true,
+        }
     },
     {
         path: "/posts",
         name: "Posts",
-        component: Posts
+        component: Posts,
+        meta: {
+            login: true,
+        }
     },
     {
         path: "/post",
         name: "SinglePost",
-        component: SinglePost
+        component: SinglePost,
+        meta: {
+            login: true,
+        }
     },
     {
         path: "/add-post",
         name: "AddPost",
-        component: AddPost
+        component: AddPost,
+        meta: {
+            login: true,
+        }
     }
 ];
 
