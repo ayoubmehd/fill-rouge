@@ -11,8 +11,14 @@
 </template>
 
 <script>
+import Text from "../components/Card/Text.vue";
+import Indecators from "../components/Card/Text.vue";
+
 export default {
-    components: {}
+    components: {
+        CardText: Text,
+        Indecators
+    }
 };
 </script>
 
