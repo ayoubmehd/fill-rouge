@@ -4,6 +4,7 @@ namespace App\Repository\SDKs;
 
 use App\Repository\FacebookRepositoryInterface;
 use Facebook\Facebook;
+use Illuminate\Support\Facades\Auth;
 
 class FacebookRepository implements FacebookRepositoryInterface
 {
@@ -13,30 +14,12 @@ class FacebookRepository implements FacebookRepositoryInterface
     public function __construct(Facebook $fb)
     {
         $this->fb = $fb;
-
-        $this->fb->setDefaultAccessToken('EAAHpNe6BmVEBALxNvbn3ZBrOPiNuNVtV5yeejdosHqllblbhUOG3fOQ7E1QoRCDEyEDTsEc0DE7h8tsmXLXZAApucfKB7PqB0rrjIsal41ZC8vAS7ElOqXsl9tSPnfyzLuBqzpHm5PGjJd29ZBpWjptP1yvKuePgbZCHM0X8cD2EnJQG82qwp');
-        // $linkData = [
-        //     'link' => 'https://github.com/facebookarchive/php-graph-sdk/blob/master/docs/examples/post_links.md',
-        //     'message' => 'This message is posted using the facebook PHP SDK',
-        // ];
-
-        // try {
-        //     $response = $fb->post('/me/feed', $linkData);
-        // } catch (Facebook\Exception\ResponseException $e) {
-        //     return 'Graph returned an error: ' . $e->getMessage();
-        //     exit;
-        // } catch (Facebook\Exception\SDKException $e) {
-        //     return 'Facebook SDK returned an error: ' . $e->getMessage();
-        //     exit;
         // }
-
-        // $graphNode = $response->getGraphNode();
-
-        // return $graphNode['id'];
     }
 
     public function getPages()
     {
+
         $facebook_user_id = $this->fb->get("/me?fields=id")->getGraphUser()["id"];
         $response = $this->fb->get(
             '/' . $facebook_user_id . '/accounts'
@@ -85,5 +68,10 @@ class FacebookRepository implements FacebookRepositoryInterface
         )->first(function ($page) use ($page_id) {
             return $page["id"] === $page_id;
         })["access_token"];
+    }
+
+    public function setDefaultAccessToken($access_token)
+    {
+        $this->fb->setDefaultAccessToken($access_token);
     }
 }

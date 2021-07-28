@@ -27,7 +27,7 @@ Route::prefix('ctm-post')->group(function () {
     Route::resource('posts', PostController::class);
 });
 
-Route::prefix('facebook')->group(function () {
+Route::group(['prefix' => 'facebook', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
     Route::get('/get-user-pages', [FacebookPostController::class, 'getPages']);
 });

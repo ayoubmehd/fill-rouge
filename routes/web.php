@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Classes\FacebookSession;
+use App\Http\Controllers\FacebookPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,9 @@ use App\Classes\FacebookSession;
 |
 */
 
-Route::get("/", function () {
-    return "Registred";
-});
+// Route::get("/", function () {
+//     return "Registred";
+// });
 
 Route::get('/facebook', function (Request $request) {
 
@@ -28,6 +29,10 @@ Route::get('/facebook', function (Request $request) {
     $permissions = ['email', 'user_likes', 'pages_manage_posts',  'pages_read_engagement', 'pages_show_list'];
     $loginUrl = $helper->getLoginUrl(\url("/login"), $permissions);
     return "<a href=\"$loginUrl\">Login With Facebook</a>";
+});
+
+Route::prefix("facebook")->group(function () {
+    Route::get("set-access-token", [FacebookPostController::class, "setAccessToken"]);
 });
 
 // Route::get('login', function (Request $request) {

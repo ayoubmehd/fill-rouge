@@ -41,7 +41,7 @@
                 <b-dropdown-item href="#">
                     Profile
                 </b-dropdown-item>
-                <b-dropdown-item href="#">
+                <b-dropdown-item @click.prevent="logout" href="#">
                     Sign Out
                 </b-dropdown-item>
             </b-nav-item-dropdown>
@@ -50,7 +50,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+    methods: {
+        logout() {
+            this.$store.dispatch("logout");
+        }
+    }
+};
 </script>
 
 <style></style>
