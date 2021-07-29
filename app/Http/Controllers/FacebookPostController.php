@@ -18,6 +18,26 @@ class FacebookPostController extends Controller
     {
         $this->facebookRepository = $facebookRepository;
     }
+
+
+    public function setAccessToken()
+    {
+        $fb = new Facebook([
+            'default_graph_version' => 'v2.10',
+            'persistent_data_handler' => new \App\Classes\FacebookSession()
+        ]);
+        $helper = $fb->getRedirectLoginHelper();
+        $accessToken = $helper->getAccessToken();
+        // OAuth 2.0 client handler
+        $oAuth2Client = $fb->getOAuth2Client();
+        // Exchanges a short-lived access token for a long-lived one
+        $longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+
+        Auth::user()->facebook_access_token = (string)$longLivedAccessToken;
+        Auth::user()->update();
+
+        return redirect('/');
+    }
     /**
      * Get the login url.
      *
@@ -33,12 +53,14 @@ class FacebookPostController extends Controller
         $helper = $fb->getRedirectLoginHelper();
 
         $permissions = ['email', 'user_likes'];
-        $loginUrl = $helper->getLoginUrl(\url("/login"), $permissions);
+        $loginUrl = $helper->getLoginUrl(\url("/facebook/set-access-token"), $permissions);
         return \response()->json(['url' => (string)$loginUrl], 200);
     }
 
     public function getPages()
     {
+        $this->facebookRepository->setDefaultAccessToken(Auth::user()->facebook_access_token);
+
         return \response()->json([
             $this->facebookRepository->getPages()
         ]);
