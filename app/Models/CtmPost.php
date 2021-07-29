@@ -9,8 +9,6 @@ class CtmPost extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content', 'platform'];
-
     function images()
     {
         return $this->hasMany(Image::class, 'ctm_post_id');
@@ -34,10 +32,5 @@ class CtmPost extends Model
     function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    function platforms()
-    {
-        return $this->belongsToMany(Platform::class, "posts_platforms");
     }
 }

@@ -23,6 +23,7 @@ class CtmPostFactory extends Factory
     {
         return [
             'content' => $this->faker->text(),
+            'platform' => $this->faker->randomElement(['fb', 'tw', 'insta', 'in']),
             'like_count' => \random_int(10, 200)
         ];
     }
