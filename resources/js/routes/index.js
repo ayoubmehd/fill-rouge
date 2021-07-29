@@ -10,7 +10,6 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
 
     if (to.meta.login) {
-        console.log(to.meta);
         const [response, error] = await checkIfUserLoggedIn();
 
         if (error) {
