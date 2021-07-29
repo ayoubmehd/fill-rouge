@@ -8,9 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-
-    function ctmPost()
-    {
-        return $this->belongsTo(CtmPost::class);
-    }
 }
