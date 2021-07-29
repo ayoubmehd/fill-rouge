@@ -1,21 +1,15 @@
 <template>
-    <div>
-        <navbar />
-        <sidebar />
-        <main>
-            <router-view />
-        </main>
-    </div>
+    <layout>
+        <router-view />
+    </layout>
 </template>
 
 <script>
-import Navbar from "./components/Layouts/Navbar.vue";
-import Sidebar from "./components/Layouts/Sidebar.vue";
+import Layout from "./components/Layouts/Layout.vue";
 
 export default {
     components: {
-        Navbar,
-        Sidebar
+        Layout
     }
 };
 </script>
