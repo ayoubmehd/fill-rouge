@@ -21,13 +21,15 @@ Route::middleware('auth:sanctum')->get('/user/{user}', function (Request $reques
     return $request->user();
 });
 
-Route::get('user-info', [UserController::class, "show"])->middleware('auth:sanctum');
+Route::middleware("auth:sanctum")->group(function () {
+    Route::get('user-info', [UserController::class, "show"]);
 
-Route::prefix('ctm-post')->group(function () {
-    Route::resource('posts', PostController::class);
-});
+    Route::prefix('ctm-post')->group(function () {
+        Route::resource('posts', PostController::class);
+    });
 
-Route::group(['prefix' => 'facebook', 'middleware' => 'auth:sanctum'], function () {
-    Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
-    Route::get('/get-user-pages', [FacebookPostController::class, 'getPages']);
+    Route::group(['prefix' => 'facebook'], function () {
+        Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
+        Route::get('/get-user-pages', [FacebookPostController::class, 'getPages']);
+    });
 });
