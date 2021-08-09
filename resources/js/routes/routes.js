@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Posts from "../views/Posts.vue";
 import SinglePost from "../views/SinglePost.vue";
 import AddPost from "../views/AddPost.vue";
+import AppManagment from "../views/AppManagment.vue";
 
 const routes = [
     {
@@ -26,6 +27,14 @@ const routes = [
         path: "/",
         name: "Home",
         component: Home,
+        meta: {
+            login: true,
+        }
+    },
+    {
+        path: "/app-managment",
+        name: "AppManagment",
+        component: AppManagment,
         meta: {
             login: true,
         }
