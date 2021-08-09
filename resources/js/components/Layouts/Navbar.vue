@@ -15,18 +15,10 @@
                     <b-icon icon="plus"></b-icon>
                 </template>
                 <b-dropdown-item href="#">
-                    EN
-                </b-dropdown-item>
-                <b-dropdown-item href="#">
-                    ES
-                </b-dropdown-item>
-                <b-dropdown-item href="#">
-                    RU
-                </b-dropdown-item>
-                <b-dropdown-item href="#">
-                    FA
+                    Post
                 </b-dropdown-item>
             </b-nav-item-dropdown>
+            <messages />
 
             <b-nav-item-dropdown
                 class="mx-1"
@@ -50,7 +42,12 @@
 </template>
 
 <script>
+import Messages from "./../Messages/Messages.vue";
+
 export default {
+    components: {
+        Messages
+    },
     methods: {
         logout() {
             this.$store.dispatch("logout");

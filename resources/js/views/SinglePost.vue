@@ -5,7 +5,18 @@
                 <slider />
             </div>
             <card-text />
-            <indecators />
+            <b-row>
+                <indecators class="col-6" />
+
+                <div class="actions col-6 d-flex justify-content-end">
+                    <b-button v-b-modal.AddComment>
+                        <b-icon icon="chat-dots"></b-icon>
+                        <span class="d-none d-md-inline-block">
+                            Add a comment
+                        </span>
+                    </b-button>
+                </div>
+            </b-row>
         </b-card>
         <comments />
     </b-container>
