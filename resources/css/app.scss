@@ -36,3 +36,40 @@ $theme-colors: (
         }
     }
 }
+
+@each $i, $spacer in $spacers {
+    .top-#{$i} {
+        top: $spacer !important;
+    }
+    .right-#{$i} {
+        right: $spacer !important;
+    }
+    .bottom-#{$i} {
+        bottom: $spacer !important;
+    }
+    .left-#{$i} {
+        left: $spacer !important;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .position-md-sticky {
+        position: sticky !important;
+    }
+    .position-md-static {
+        position: static !important;
+    }
+}
+
+// dropdown
+.scorllable-dropdown {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+// Modal
+.modal {
+    &-content {
+        border: none;
+    }
+}

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card bg-variant="dark" text-variant="white" class="my-2">
+        <b-card bg-variant="dark" text-variant="white" class="mb-4">
             <b-img
                 left
                 rounded="circle"
@@ -9,7 +9,18 @@
                 class="mx-2"
             ></b-img>
             <card-text />
-            <indecators />
+            <b-row>
+                <indecators class="col-6" />
+
+                <div class="actions col-6 d-flex justify-content-end">
+                    <b-button v-b-modal.AddComment>
+                        <b-icon icon="chat-dots"></b-icon>
+                        <span class="d-none d-md-inline-block">
+                            Replay
+                        </span>
+                    </b-button>
+                </div>
+            </b-row>
         </b-card>
     </div>
 </template>
