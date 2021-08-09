@@ -11,6 +11,17 @@ $theme-colors: (
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 @import "node_modules/bootstrap-vue/src/index.scss";
 
+// nav Links
+.nav-link {
+    color: $body-color;
+    &:hover {
+        color: rgba($success, 0.7);
+    }
+    &.active {
+        color: $success;
+    }
+}
+
 .dropdown-menu.bg-dark {
     a {
         color: #fff;
