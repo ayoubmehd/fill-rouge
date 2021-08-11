@@ -56,7 +56,7 @@ class PostController extends Controller
     {
         $post = new Post();
 
-        $user = User::find(1);
+        $user = Auth::user();
 
 
         $this->postRepository->associate('user', $user);
