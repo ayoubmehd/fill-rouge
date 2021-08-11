@@ -10,11 +10,11 @@ class FacebookRepository implements FacebookRepositoryInterface
 {
 
     protected $fb;
+    protected $permissions = ['email', 'user_likes', 'pages_manage_posts',  'pages_read_engagement', 'pages_show_list'];
 
     public function __construct(Facebook $fb)
     {
         $this->fb = $fb;
-        // }
     }
 
     public function getPages()
@@ -73,5 +73,39 @@ class FacebookRepository implements FacebookRepositoryInterface
     public function setDefaultAccessToken($access_token)
     {
         $this->fb->setDefaultAccessToken($access_token);
+    }
+
+    public function generateAccessToken(): string
+    {
+        $helper = $this->fb->getRedirectLoginHelper();
+        $accessToken = $helper->getAccessToken();
+        // OAuth 2.0 client handler
+        $oAuth2Client = $this->fb->getOAuth2Client();
+        // Exchanges a short-lived access token for a long-lived one
+        $longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+
+        return  (string)$longLivedAccessToken;
+    }
+
+    public function refreshAccessToken()
+    {
+        $params = [
+            "client_id" => env("FACEBOOK_APP_ID"),
+            "client_secret" => env("FACEBOOK_APP_SECRET"),
+            "grant_type" => "fb_exchange_token",
+            "fb_exchange_token" => $this->fb->getDefaultAccessToken()->getValue()
+        ];
+        $query_params = http_build_query($params);
+        return $this->fb->get("oauth/access_token?$query_params")->getDecodedBody()["access_token"];
+    }
+
+    public function getLoginUrl()
+    {
+
+        $helper = $this->fb->getRedirectLoginHelper();
+
+        $loginUrl = $helper->getLoginUrl(\url("/facebook/set-access-token"), $this->permissions);
+
+        return $loginUrl;
     }
 }

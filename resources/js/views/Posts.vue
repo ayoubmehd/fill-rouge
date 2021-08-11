@@ -12,7 +12,7 @@
 
 <script>
 import Text from "../components/Card/Text.vue";
-import Indecators from "../components/Card/Text.vue";
+import Indecators from "../components/Card/Indecators.vue";
 
 export default {
     components: {

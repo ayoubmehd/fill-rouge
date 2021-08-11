@@ -4,6 +4,7 @@ import { checkIfUserLoggedIn } from "../api/auth.js";
 
 const router = new VueRouter({
     mode: "history",
+    linkActiveClass: "active",
     routes
 });
 

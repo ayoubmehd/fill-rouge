@@ -19,23 +19,16 @@ class FacebookPostController extends Controller
         $this->facebookRepository = $facebookRepository;
     }
 
+    protected function saveAccessToken($longLivedAccessToken)
+    {
+        Auth::user()->facebook_access_token = (string)$longLivedAccessToken;
+        Auth::user()->update();
+    }
 
     public function setAccessToken()
     {
-        $fb = new Facebook([
-            'default_graph_version' => 'v2.10',
-            'persistent_data_handler' => new \App\Classes\FacebookSession()
-        ]);
-        $helper = $fb->getRedirectLoginHelper();
-        $accessToken = $helper->getAccessToken();
-        // OAuth 2.0 client handler
-        $oAuth2Client = $fb->getOAuth2Client();
-        // Exchanges a short-lived access token for a long-lived one
-        $longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
-
-        Auth::user()->facebook_access_token = (string)$longLivedAccessToken;
-        Auth::user()->update();
-
+        $longLivedAccessToken = $this->facebookRepository->generateAccessToken();
+        $this->saveAccessToken($longLivedAccessToken);
         return redirect('/');
     }
     /**
@@ -43,24 +36,16 @@ class FacebookPostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getUrl()
+    public function getUrl(Request $request)
     {
-        $fb = new Facebook([
-            'default_graph_version' => 'v2.10',
-            'persistent_data_handler' => new \App\Classes\FacebookSession()
-        ]);
+        $this->facebookRepository->setDefaultAccessToken($request->get('access_token'));
 
-        $helper = $fb->getRedirectLoginHelper();
-
-        $permissions = ['email', 'user_likes'];
-        $loginUrl = $helper->getLoginUrl(\url("/facebook/set-access-token"), $permissions);
+        $loginUrl = $this->facebookRepository->getLoginUrl();
         return \response()->json(['url' => (string)$loginUrl], 200);
     }
 
     public function getPages()
     {
-        $this->facebookRepository->setDefaultAccessToken(Auth::user()->facebook_access_token);
-
         return \response()->json([
             $this->facebookRepository->getPages()
         ]);

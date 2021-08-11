@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user/{user}', function (Request $reques
     return $request->user();
 });
 
-Route::middleware("auth:sanctum")->group(function () {
+Route::middleware(["auth:sanctum", "access_tokens.set"])->group(function () {
     Route::get('user-info', [UserController::class, "show"]);
 
     Route::prefix('ctm-post')->group(function () {
