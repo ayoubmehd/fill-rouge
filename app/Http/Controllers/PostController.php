@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Repository\CtmPostRepositoryInterface;
 use App\Repository\PlatformRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
