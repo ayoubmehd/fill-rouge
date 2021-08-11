@@ -44,8 +44,9 @@ class FacebookPostController extends Controller
         return \response()->json(['url' => (string)$loginUrl], 200);
     }
 
-    public function getPages()
+    public function getPages(Request $request)
     {
+        $this->facebookRepository->setDefaultAccessToken($request->get('access_token'));
         return \response()->json([
             $this->facebookRepository->getPages()
         ]);
