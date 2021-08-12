@@ -28,7 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CtmPostRepositoryInterface::class, CtmPostRepository::class);
         $this->app->bind(FacebookRepositoryInterface::class, function () {
             return new FacebookRepository(new Facebook([
-                'default_graph_version' => 'v2.10',
+                'default_graph_version' => 'v11.0',
                 'persistent_data_handler' => new FacebookSession()
             ]));
         });

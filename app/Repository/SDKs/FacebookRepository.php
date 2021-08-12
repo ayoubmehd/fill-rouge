@@ -108,4 +108,23 @@ class FacebookRepository implements FacebookRepositoryInterface
 
         return $loginUrl;
     }
+
+    public function getPostData($page_id, $post_id)
+    {
+        $response = $this->fb->get(
+            "/" . $page_id . "_$post_id/"
+        );
+
+
+        return (array)$response->getDecodedBody();
+    }
+    public function getPostLikes($page_id, $post_id)
+    {
+        $response = $this->fb->get(
+            "/" . $page_id . "_$post_id/likes"
+        );
+
+
+        return (array)$response->getDecodedBody();
+    }
 }

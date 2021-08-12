@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 use App\Models\CtmPost;
 use App\Providers\PostDeleted;
 use App\Providers\PostUpdated;
+use App\Repository\FacebookRepositoryInterface;
+use Mockery\Matcher\Any;
+use Nette\Utils\Json;
+use Illuminate\Support\Facades\Auth;
 
 class CtmPostRepository implements CtmPostRepositoryInterface
 {
@@ -19,21 +23,57 @@ class CtmPostRepository implements CtmPostRepositoryInterface
      */
     protected $model;
 
+    protected $fb;
+
 
     /**
      * CtmPostRepository constructor
      * @param CtmPost $model
      */
-    public function __construct(CtmPost $model)
+    public function __construct(CtmPost $model, FacebookRepositoryInterface $fb)
     {
         $this->model = $model;
+        $this->fb = $fb;
     }
     /**
      * @return Collection
      */
-    public function paginate(): LengthAwarePaginator
+    public function paginate()
     {
-        return $this->model->select()->with(['post', 'images'])->paginate(10);
+        return $this->model->select()->with(['post', 'images', 'platforms' => function ($query) {
+            $query->withPivot("metadata", "external_id");
+        }])->paginate(10);
+
+        // $this->fb->setDefaultAccessToken(Auth::user()->facebook_access_token);
+
+        // return $data->map(function ($post) {
+        //     $post  = $post->platforms->map(function ($platform) {
+        //         $platforms = [];
+        //         switch ($platform->platform) {
+        //             case "fb":
+        //                 if (empty($platform->pivot)) return;
+
+        //                 if (empty($platform->pivot->metadata)) return;
+
+        //                 $metadata = json_decode($platform->pivot->metadata);
+        //                 if (empty($metadata->facebook_page_id)) return;
+
+        //                 if (empty($platform->pivot->external_id)) return;
+
+        //                 // $platforms["fb"] = $this->fb->getPostLikes($metadata->facebook_page_id, $platform->pivot->external_id);
+        //                 $platforms["fb"] = $this->fb->getPostLikes($metadata->facebook_page_id, $platform->pivot->external_id);
+
+        //                 break;
+
+        //             default:
+        //                 # code...
+        //                 break;
+        //         }
+
+        //         return $platforms;
+        //     });
+        //     return $post;
+        // });
     }
 
     /**
