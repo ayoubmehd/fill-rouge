@@ -94,7 +94,9 @@ class CtmPostRepository implements CtmPostRepositoryInterface
 
     public function show($id): Model
     {
-        return $this->model->findOrFail($id);
+        return $this->model->with(['post', 'images', 'platforms' => function ($query) {
+            $query->withPivot("metadata", "external_id");
+        }])->findOrFail($id);
     }
 
     public function update($id, array $payload): bool
