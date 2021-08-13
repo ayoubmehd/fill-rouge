@@ -2,13 +2,11 @@
     <div>
         <b-row>
             <b-col cols="md-8" class="mt-4 order-1 order-md-0">
-                <comment />
-                <comment />
-                <comment />
-                <comment />
-                <comment />
-                <comment />
-                <comment />
+                <comment
+                    v-for="comment in comments"
+                    :key="comment.id"
+                    :comment="comment"
+                />
             </b-col>
             <b-col
                 class="position-sticky position-md-static top-0 left-0 right-0  order-0 order-md-1 mt-4"
@@ -48,6 +46,9 @@ export default {
     components: {
         Comment,
         AddComment
+    },
+    props: {
+        comments: Array
     },
     data() {
         return {

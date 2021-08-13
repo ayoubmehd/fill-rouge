@@ -30,7 +30,10 @@ export default {
                 comments_count: 0
             })
         },
-        post_id: Number,
+        post_id: {
+            type: [Number, String],
+            default: 0
+        },
         icons: {
             type: Array,
             default: () => []
