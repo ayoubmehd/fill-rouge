@@ -1,10 +1,11 @@
-import { addPost, getAllPosts } from "../../api/post.js";
+import { addPost, getAllPosts, getSinglePost } from "../../api/post.js";
 
 export default {
     state: () => ({
         isLoading: false,
         errors: null,
-        posts: null
+        posts: null,
+        post: null,
     }),
     mutations: {
         setLoading(state, payload) {
@@ -15,6 +16,9 @@ export default {
         },
         setPosts(state, payload) {
             state.posts = payload;
+        },
+        setPost(state, payload) {
+            state.post = payload;
         }
     },
     actions: {
@@ -28,6 +32,13 @@ export default {
             commit("setLoading", true);
             const [paginate, errors] = await getAllPosts();
             commit("setPosts", paginate.data);
+            commit("setLoading", false);
+            commit("setError", errors);
+        },
+        async getSinglePost({ commit }, id) {
+            commit("setLoading", true);
+            const [post, errors] = await getSinglePost(id);
+            commit("setPost", post);
             commit("setLoading", false);
             commit("setError", errors);
         }

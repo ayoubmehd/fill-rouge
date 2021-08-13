@@ -14,3 +14,11 @@ export const getAllPosts = async (page = 1) => {
         return [null, err];
     }
 }
+export const getSinglePost = async (id) => {
+    try {
+        const response = await axios.get(`/api/ctm-post/posts/${id}`);
+        return [response.data, null];
+    } catch (err) {
+        return [null, err];
+    }
+}
