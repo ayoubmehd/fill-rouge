@@ -53,8 +53,7 @@ export default {
             const fb = this.post.platforms.filter(
                 item => item.platform === "fb"
             );
-            console.log(JSON.parse(fb[0].pivot.metadata).facebook_page_id);
-            console.log(fb[0].pivot.external_id);
+
             this.getPostComments({
                 pageId: JSON.parse(fb[0].pivot.metadata).facebook_page_id,
                 postId: fb[0].pivot.external_id

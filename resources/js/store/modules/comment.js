@@ -1,9 +1,10 @@
-import { getPostComments } from "../../api/facebook.js";
+import { getPostComments, createComment, replyToComment } from "../../api/facebook.js";
 
 export default {
     state: () => ({
         isLoading: false,
         comments: null,
+        comment: null,
         errors: null,
     }),
     mutations: {
@@ -15,6 +16,9 @@ export default {
         },
         setComments(state, comments) {
             state.comments = comments;
+        },
+        setComment(state, comment) {
+            state.comment = comment;
         }
     },
     actions: {
@@ -27,6 +31,25 @@ export default {
             }
 
             commit("setComments", response.data);
+        },
+        async createComment({ commit }, { pageId, postId, comment }) {
+            commit("setLoading", true);
+            const [response, error] = await createComment(pageId, postId, comment);
+            commit("setLoading", false);
+            if (error) {
+                commit("setErrors", error);
+            }
+        },
+        setComment({ commit }, { comment }) {
+            commit("setComment", comment);
+        },
+        async replyToComment({ commit }, { pageId, commentId, comment }) {
+            commit("setLoading", true);
+            const [response, error] = await replyToComment(pageId, commentId, comment);
+            commit("setLoading", false);
+            if (error) {
+                commit("setErrors", error);
+            }
         }
     },
     getters: {}

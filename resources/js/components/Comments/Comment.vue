@@ -17,7 +17,10 @@
                 />
 
                 <div class="actions col-6 d-flex justify-content-end">
-                    <b-button v-b-modal.AddComment>
+                    <b-button
+                        v-b-modal.AddComment
+                        @click="setComment({ comment })"
+                    >
                         <b-icon icon="chat-dots"></b-icon>
                         <span class="d-none d-md-inline-block">
                             Replay
@@ -30,6 +33,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { Text, Indecators } from "../Card/index.js";
 
 export default {
@@ -42,6 +46,9 @@ export default {
             type: Object,
             default: () => ({})
         }
+    },
+    methods: {
+        ...mapActions(["setComment"])
     }
 };
 </script>
