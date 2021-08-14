@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex, { createLogger } from 'vuex';
 import user from "./modules/user.js";
 import post from "./modules/post.js";
+import comment from "./modules/comment.js";
 import auth from "./modules/auth.js";
 
 Vue.use(Vuex);
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     modules: {
         user,
         post,
+        comment,
         auth
     },
     plugins: debug ? [createLogger()] : []

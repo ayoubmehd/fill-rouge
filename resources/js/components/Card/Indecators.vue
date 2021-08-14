@@ -1,33 +1,44 @@
 <template>
     <span>
-        <b-button id="facebook">
-            <b-icon icon="facebook"></b-icon>
-        </b-button>
-        <b-button id="linkedin">
-            <b-icon icon="linkedin"></b-icon>
-        </b-button>
-        <b-tooltip target="facebook">
-            <b-badge>
-                Likes 2
-            </b-badge>
-            <b-badge>
-                Comments 20
-            </b-badge>
-        </b-tooltip>
-        <b-tooltip target="linkedin">
-            <b-badge>
-                Likes 2
-            </b-badge>
-            <b-badge>
-                Comments 20
-            </b-badge>
-        </b-tooltip>
+        <span v-for="icon in icons">
+            <b-button :id="`${icon.name}-${post_id}`">
+                <b-icon :icon="icon.name"></b-icon>
+            </b-button>
+            <b-tooltip :target="`${icon.name}-${post_id}`">
+                <b-badge> Likes {{ facebook.like_count }} </b-badge>
+                <b-badge> Comments {{ facebook.comments_count }} </b-badge>
+            </b-tooltip>
+        </span>
     </span>
 </template>
 
 <script>
 export default {
-    name: "indecators"
+    name: "indecators",
+    props: {
+        linkedin: {
+            type: Object,
+            default: () => ({
+                like_count: 0,
+                comments_count: 0
+            })
+        },
+        facebook: {
+            type: Object,
+            default: () => ({
+                like_count: 0,
+                comments_count: 0
+            })
+        },
+        post_id: {
+            type: [Number, String],
+            default: 0
+        },
+        icons: {
+            type: Array,
+            default: () => []
+        }
+    }
 };
 </script>
 

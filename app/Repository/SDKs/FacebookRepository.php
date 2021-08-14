@@ -10,7 +10,15 @@ class FacebookRepository implements FacebookRepositoryInterface
 {
 
     protected $fb;
-    protected $permissions = ['email', 'user_likes', 'pages_manage_posts',  'pages_read_engagement', 'pages_show_list'];
+    protected $permissions = [
+        'email',
+        'user_likes',
+        'pages_manage_posts',
+        'pages_read_engagement',
+        'pages_show_list',
+        'pages_manage_engagement',
+        'read_insights',
+    ];
 
     public function __construct(Facebook $fb)
     {
@@ -107,5 +115,58 @@ class FacebookRepository implements FacebookRepositoryInterface
         $loginUrl = $helper->getLoginUrl(\url("/facebook/set-access-token"), $this->permissions);
 
         return $loginUrl;
+    }
+
+    public function getPostData($page_id, $post_id)
+    {
+        $response = $this->fb->get(
+            "/" . $page_id . "_$post_id/"
+        );
+
+
+        return (array)$response->getDecodedBody();
+    }
+    public function getPostLikes($page_id, $post_id)
+    {
+        $response = $this->fb->get(
+            "/" . $page_id . "_$post_id/likes"
+        );
+
+
+        return (array)$response->getDecodedBody();
+    }
+
+    public function getPostComments($page_id, $post_id)
+    {
+        $response = $this->fb->get(
+            "/" . $page_id . "_$post_id/comments?fields=message",
+            $this->getPageAccessToken($page_id)
+        );
+
+        return (array)$response->getDecodedBody();
+    }
+    public function createComment($page_id, $post_id, $content, $paraent_comment = null)
+    {
+        $response = $this->fb->post(
+            "/" . $page_id . "_$post_id/comments",
+            [
+                "message" => $content,
+            ],
+            $this->getPageAccessToken($page_id)
+        );
+
+        return (array)$response->getDecodedBody();
+    }
+    public function replyToComment($page_id, $comment_id, $content)
+    {
+        $response = $this->fb->post(
+            "/$comment_id/comments",
+            [
+                "message" => $content,
+            ],
+            $this->getPageAccessToken($page_id)
+        );
+
+        return (array)$response->getDecodedBody();
     }
 }

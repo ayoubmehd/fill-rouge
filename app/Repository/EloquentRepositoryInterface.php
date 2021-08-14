@@ -13,7 +13,7 @@ interface EloquentRepositoryInterface
      *
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function paginate(): LengthAwarePaginator;
+    public function paginate();
 
     /**
      * Store a newly created resource in storage.

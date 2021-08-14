@@ -16,10 +16,6 @@ use App\Http\Controllers\FacebookPostController;
 |
 */
 
-// Route::get("/", function () {
-//     return "Registred";
-// });
-
 Route::get('/facebook', function (Request $request) {
 
     $fb = new Facebook\Facebook(['persistent_data_handler' => new FacebookSession]);
@@ -59,4 +55,4 @@ Route::prefix("facebook")->group(function () {
 
 Route::get("/{any?}", function () {
     return view("welcome");
-});
+})->where("any", "[\/\w\.-]*");

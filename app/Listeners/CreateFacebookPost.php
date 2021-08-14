@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use App\Repository\FacebookRepositoryInterface;
 use App\Repository\SDKs\FacebookRepository;
+use Illuminate\Support\Facades\Auth;
 
 class CreateFacebookPost
 {
@@ -32,11 +33,10 @@ class CreateFacebookPost
      */
     public function handle(PostAdded $event)
     {
+        $this->facebookRepository->setDefaultAccessToken(Auth::user()->facebook_access_token);
         $res = $this->facebookRepository->createPost([
             "post" => $event->post,
             "page_id" => $event->options["facebook"]["page"]
         ]);
-
-        \dd($res);
     }
 }

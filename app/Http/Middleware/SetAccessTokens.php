@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repository\FacebookRepositoryInterface;
+use Facebook\Authentication\AccessToken;
 
 class SetAccessTokens
 {
@@ -27,10 +28,13 @@ class SetAccessTokens
     {
         if ($request->user()) {
             $this->facebookRepository->setDefaultAccessToken($request->user()->facebook_access_token);
-            $longLivedAccessToken = $this->facebookRepository->refreshAccessToken();
-            $request->attributes->add(['access_token' => (string)$longLivedAccessToken]);
-            $request->user()->facebook_access_token = (string)$longLivedAccessToken;
-            $request->user()->update();
+            $accessToken = new AccessToken($request->user()->facebook_access_token);
+            $request->attributes->add(['access_token' => (string)$accessToken]);
+            if ($accessToken->isExpired()) {
+                $longLivedAccessToken = $this->facebookRepository->refreshAccessToken();
+                $request->user()->facebook_access_token = (string)$longLivedAccessToken;
+                $request->user()->update();
+            }
         }
 
         return $next($request);

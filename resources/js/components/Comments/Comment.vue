@@ -1,19 +1,26 @@
 <template>
     <div>
         <b-card bg-variant="dark" text-variant="white" class="mb-4">
-            <b-img
+            <!-- <b-img
                 left
                 rounded="circle"
                 src="https://picsum.photos/125/125/?image=58"
                 alt="Left image"
                 class="mx-2"
-            ></b-img>
-            <card-text />
+            ></b-img> -->
+            <card-text :content="comment.message" />
             <b-row>
-                <indecators class="col-6" />
+                <indecators
+                    :icons="[{ name: 'facebook' }]"
+                    :post_id="comment.id"
+                    class="col-6"
+                />
 
                 <div class="actions col-6 d-flex justify-content-end">
-                    <b-button v-b-modal.AddComment>
+                    <b-button
+                        v-b-modal.AddComment
+                        @click="setComment({ comment })"
+                    >
                         <b-icon icon="chat-dots"></b-icon>
                         <span class="d-none d-md-inline-block">
                             Replay
@@ -26,12 +33,22 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { Text, Indecators } from "../Card/index.js";
 
 export default {
     components: {
         CardText: Text,
         Indecators
+    },
+    props: {
+        comment: {
+            type: Object,
+            default: () => ({})
+        }
+    },
+    methods: {
+        ...mapActions(["setComment"])
     }
 };
 </script>

@@ -48,7 +48,7 @@ const routes = [
         }
     },
     {
-        path: "/post",
+        path: "/post/:id",
         name: "SinglePost",
         component: SinglePost,
         meta: {

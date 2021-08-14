@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FacebookPostController;
@@ -21,7 +22,10 @@ Route::middleware('auth:sanctum')->get('/user/{user}', function (Request $reques
     return $request->user();
 });
 
-Route::middleware(["auth:sanctum", "access_tokens.set"])->group(function () {
+Route::middleware([
+    "auth:sanctum",
+    "access_tokens.set"
+])->group(function () {
     Route::get('user-info', [UserController::class, "show"]);
 
     Route::prefix('ctm-post')->group(function () {
@@ -31,5 +35,8 @@ Route::middleware(["auth:sanctum", "access_tokens.set"])->group(function () {
     Route::group(['prefix' => 'facebook'], function () {
         Route::get('/get-login-url', [FacebookPostController::class, 'getUrl']);
         Route::get('/get-user-pages', [FacebookPostController::class, 'getPages']);
+        Route::get('/get-post-comments/{pageId}/{postId}', [CommentController::class, 'getFacebookPostComments']);
+        Route::post('/create-comment/{pageId}/{postId}', [CommentController::class, 'store']);
+        Route::post('/reply-to-comment/{pageId}/{commentId}', [CommentController::class, 'store']);
     });
 });
