@@ -1,8 +1,11 @@
 <template>
     <b-container>
         <b-row align-h="center" align-v="center" class="vh-100">
-            <b-col cols="md-6" class="h-75">
-                <b-card bg-variant="dark" text-variant="white" class="h-100">
+            <b-col cols="md-5" class="h-75 d-flex align-items-center">
+                <b-card bg-variant="dark" text-variant="white" class="w-100">
+                    <b-card-title>
+                        <h1>Login</h1>
+                    </b-card-title>
                     <b-form @submit.prevent="submit">
                         <b-form-group
                             id="email-group"
@@ -48,10 +51,14 @@ export default {
         };
     },
     methods: {
-        submit() {
-            this.$store.dispatch("login", this.form);
+        async submit() {
+            await this.$store.dispatch("login", this.form);
+            if (!this.$store.state.auth.errors) {
+                this.$router.push({ name: "Home" });
+            }
         }
-    }
+    },
+    mounted() {}
 };
 </script>
 
