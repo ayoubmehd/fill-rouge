@@ -1,8 +1,11 @@
 <template>
     <b-container>
         <b-row align-h="center" align-v="center" class="vh-100">
-            <b-col cols="md-6" class="h-75">
-                <b-card bg-variant="dark" text-variant="white" class="h-100">
+            <b-col cols="md-5" class="h-75 d-flex align-items-center">
+                <b-card bg-variant="dark" text-variant="white" class="w-100">
+                    <b-card-title>
+                        <h1>Register</h1>
+                    </b-card-title>
                     <b-form @submit="submit">
                         <b-form-group
                             id="name-group"
